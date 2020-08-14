@@ -1,13 +1,5 @@
-const fs = require('fs');
-
-const commands = new Map();
-const commandFiles = fs.readdirSync('./commands').filter((file) => file.endsWith('.js'));
+const { commands } = require('./commands');
 const { prefix } = require('./config.json');
-
-for (const file of commandFiles) {
-  const command = require(`./commands/${file}`);
-  commands.set(command.name, command);
-}
 
 function handleMessageContent(content) {
   const trimmedMessage = content.trimLeft();
