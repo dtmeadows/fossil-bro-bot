@@ -7,9 +7,8 @@ module.exports = {
     const regex = /(?<recipient>\w+)\s*(?<reason>.*)?/;
     const regexpExtract = regex.exec(message);
 
-    if (regexpExtract === null) {
-      // todo add better error message
-      return 'invalid format for ++ command';
+    if (regexpExtract === null || message === undefined) {
+      return 'Error! Invalid format for ++ command. You must specify a recipient after ++';
     }
 
     const { recipient, reason } = regexpExtract.groups;

@@ -11,8 +11,7 @@ function handleMessageContent(content) {
 
   // a valid command is any non space character following the prefix
   // we also will optionally capture any of the text following the command in case
-  //
-  const commandExtractRegexp = new RegExp(`${prefix}(?<commandName>\\S+)\\s?(?<contentAfterCommand>.*)?`);
+  const commandExtractRegexp = new RegExp(`${prefix}(?<commandName>\\S+)(?<contentAfterCommand>.*)?`);
   const regexpExtract = commandExtractRegexp.exec(trimmedMessage);
   if (regexpExtract === null) {
     return 'Error! Unable to understand command.';
