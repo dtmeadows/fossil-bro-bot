@@ -22,9 +22,7 @@ function handleMessageContent(content) {
   if (!commands.has(commandName)) {
     return `Error! Unrecognized command: '${commandName}'`;
   }
-  console.log(`running command ${commandName}`);
   const outputMessage = commands.get(commandName).execute(contentAfterCommand);
-  console.log(`got output message: ${outputMessage}`);
   return outputMessage;
 }
 
