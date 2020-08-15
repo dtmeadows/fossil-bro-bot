@@ -1,3 +1,4 @@
 node_modules/
 fossil-bro-bot.code-workspace
 config.json
+database.sqlite
