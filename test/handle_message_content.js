@@ -8,8 +8,12 @@ describe('handleMessageContent', () => {
     assert.equal(undefined, await handleMessageContent('blur'));
   });
 
-  it('returns nothing if prefix is passed followed by space', async () => {
-    assert.equal(undefined, await handleMessageContent('! ping'));
+  it('returns helpful message if prefix is passed followed by space', async () => {
+    assert.equal('Error! Unable to understand command.', await handleMessageContent('! ping'));
+  });
+
+  it('returns helpful message if unrecognized command is passed', async () => {
+    assert.equal('Error! Unrecognized command: \'blah\'', await handleMessageContent('!blah'));
   });
 
   describe('ping', () => {

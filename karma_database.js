@@ -33,36 +33,47 @@ async function findKarma(query) {
   return Karma.findOne({ where: query });
 }
 
-async function incrementOrCreateAndSetKarma(query) {
+async function setOrCreateKarma(query, increment) {
   return findKarma(query).then((karma) => {
     if (!karma) {
       // Item not found, create a new one
-      console.log('creating item');
       const newQuery = query;
-      newQuery.karma_count = 1;
+      // Karma starts at 0, but we're always initializing
+      // it when someones up or downvoting something
+      newQuery.karma_count = increment ? 1 : -1;
       return Karma.create(query).then((newKarma) => newKarma.karma_count);
     }
-    karma.increment('karma_count');
+
+    if (increment) {
+      karma.increment('karma_count');
+    } else {
+      karma.decrement('karma_count');
+    }
+
     return karma.reload().then(() => karma.karma_count);
   });
 }
 
 async function giveKarma(recipient, isUser, serverId) {
   const query = { recipient, is_user: isUser, server: serverId };
-  return incrementOrCreateAndSetKarma(query);
+  return setOrCreateKarma(query, true);
+}
+
+async function decrementKarma(recipient, isUser, serverId) {
+  const query = { recipient, is_user: isUser, server: serverId };
+  return setOrCreateKarma(query, false);
 }
 
 async function lookupKarma(recipient, isUser, serverId) {
   const query = { recipient, is_user: isUser, server: serverId };
   return findKarma(query).then((karma) => {
     if (!karma) {
-      // console.log(`recipient: ${recipient} has no karma stored`);
       return null;
     }
-    // console.log(`recipient: ${recipient} has ${karma.karma_count} karma`);
     return karma.karma_count;
   });
 }
 
 exports.giveKarma = giveKarma;
 exports.lookupKarma = lookupKarma;
+exports.decrementKarma = decrementKarma;

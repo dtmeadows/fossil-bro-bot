@@ -15,16 +15,13 @@ function handleMessageContent(content) {
   const commandExtractRegexp = new RegExp(`${prefix}(?<commandName>\\S+)\\s?(?<contentAfterCommand>.*)?`);
   const regexpExtract = commandExtractRegexp.exec(trimmedMessage);
   if (regexpExtract === null) {
-    // regex didn't match syntax
-    // todo return a helpful error here
-    return undefined;
+    return 'Error! Unable to understand command.';
   }
 
   const { commandName, contentAfterCommand } = regexpExtract.groups;
 
   if (!commands.has(commandName)) {
-    console.log(`no command found for ${commandName}`);
-    return undefined;
+    return `Error! Unrecognized command: '${commandName}'`;
   }
   console.log(`running command ${commandName}`);
   const outputMessage = commands.get(commandName).execute(contentAfterCommand);

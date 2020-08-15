@@ -1,6 +1,8 @@
+const { decrementKarma } = require('../karma_database');
+
 module.exports = {
   name: '--',
-  description: 'Upvote something',
+  description: 'Downvote something',
   async execute(message) {
     const regex = /(?<recipient>\w+)\s*(?<reason>.*)?/;
     const regexpExtract = regex.exec(message);
@@ -10,15 +12,20 @@ module.exports = {
       return 'invalid format for -- command';
     }
 
+    const { recipient, reason } = regexpExtract.groups;
+
+    // todo parse users and server
+    const karmaCount = await decrementKarma(recipient, false, 'abc123');
+
     // this will return either:
     // `-- recipient reason (now at xx)`
     // or if the reason is null
     // `-- recipient (now at xx)
     return [
       '--',
-      regexpExtract.groups.recipient,
-      regexpExtract.groups.reason,
-      '(now at XX)',
+      recipient,
+      reason,
+      `(now at ${karmaCount})`,
     ].filter(Boolean).join(' ');
   },
 };
