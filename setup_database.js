@@ -29,42 +29,7 @@ const Karma = sequelize.define('karma', {
   },
 });
 
-async function findKarma(query) {
-  return Karma.findOne({ where: query });
-}
-
-async function incrementOrCreateAndIncrementKarma(query) {
-  return findKarma(query).then((karma) => {
-    if (!karma) {
-      // Item not found, create a new one
-      console.log('creating item');
-      return Karma.create(query).then((newKarma) => newKarma.karma_count);
-    } else {
-      karma.increment('karma_count');
-      return karma.reload().then(() => karma.karma_count);
-    }
-  });
-}
-
-async function giveKarma(recipient, isUser, serverId) {
-  const query = { recipient, is_user: isUser, server: serverId };
-  return incrementOrCreateAndIncrementKarma(query);
-}
-
-async function lookupKarma(recipient, isUser, serverId) {
-  const query = { recipient, is_user: isUser, server: serverId };
-  return findKarma(query).then((karma) => {
-    if (!karma) {
-      // console.log(`recipient: ${recipient} has no karma stored`);
-      return null;
-    }
-    // console.log(`recipient: ${recipient} has ${karma.karma_count} karma`);
-    return karma.karma_count;
-  });
-}
-
 Karma.sync();
-
 
 // lookupKarma('jsin', false, 'abc123').then((karmaCount) => {
 //   console.log(`karma count: ${karmaCount}`);

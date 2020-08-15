@@ -33,11 +33,13 @@ async function findKarma(query) {
   return Karma.findOne({ where: query });
 }
 
-async function incrementOrCreateAndIncrementKarma(query) {
+async function incrementOrCreateAndSetKarma(query) {
   return findKarma(query).then((karma) => {
     if (!karma) {
       // Item not found, create a new one
       console.log('creating item');
+      const newQuery = query;
+      newQuery.karma_count = 1;
       return Karma.create(query).then((newKarma) => newKarma.karma_count);
     }
     karma.increment('karma_count');
@@ -47,7 +49,7 @@ async function incrementOrCreateAndIncrementKarma(query) {
 
 async function giveKarma(recipient, isUser, serverId) {
   const query = { recipient, is_user: isUser, server: serverId };
-  return incrementOrCreateAndIncrementKarma(query);
+  return incrementOrCreateAndSetKarma(query);
 }
 
 async function lookupKarma(recipient, isUser, serverId) {
