@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 const assert = require('assert');
 
-const { handleMessageContent } = require('../handle_message_content.js');
+const { handleMessageContent } = require('../../handle_message_content.js');
 
 describe('handleMessageContent', () => {
   it('returns nothing unless prefix is passed', async () => {

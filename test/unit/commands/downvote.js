@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 const assert = require('assert');
 
-const downvote = require('../../commands/downvote.js');
+const downvote = require('../../../commands/downvote.js');
 
 describe('downvote', () => {
   it('parses a user and a reason', async () => {

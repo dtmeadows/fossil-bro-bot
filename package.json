@@ -20,6 +20,7 @@
   "dependencies": {
     "discord.js": "^12.3.0",
     "sequelize": "^6.3.4",
+    "sinon": "^9.0.3",
     "sqlite3": "^5.0.0"
   },
   "devDependencies": {

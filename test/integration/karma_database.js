@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 const assert = require('assert');
 
-const { lookupKarma, giveKarma } = require('../karma_database');
+const { lookupKarma, giveKarma } = require('../../karma_database');
 
 describe('lookupKarma', () => {
   it('looks up karma', async () => {
