@@ -7,6 +7,7 @@ const { handleMessageContent } = require('./handle_message_content.js');
 
 client.once('ready', () => {
   console.log('Ready!');
+  console.log(`processing in ${process.env}`);
 });
 
 async function handleMessage(message) {
