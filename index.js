@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 const client = new Discord.Client();
 
-const { token } = require('./config.json');
+const { discordAccessToken } = require('./secrets.json');
 const { handleMessageContent } = require('./handle_message_content.js');
 
 client.once('ready', () => {
@@ -30,4 +30,4 @@ client.on('message', (message) => {
   handleMessage(message);
 });
 
-client.login(token);
+client.login(discordAccessToken);
