@@ -1,7 +1,7 @@
 module.exports = {
   name: '--',
   description: 'Upvote something',
-  execute(message) {
+  async execute(message) {
     const regex = /(?<recipient>\w+)\s*(?<reason>.*)?/;
     const regexpExtract = regex.exec(message);
 

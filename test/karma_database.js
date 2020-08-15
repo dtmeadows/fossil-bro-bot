@@ -1,15 +1,20 @@
 /* eslint-env mocha */
 const assert = require('assert');
 
-const { lookupKarma } = require('../karma_database');
+const { lookupKarma, giveKarma } = require('../karma_database');
 
 describe('lookupKarma', () => {
-  it('looks up karma', () => {
-    const expectedKarma = 27;
-    const actualKarma = lookupKarma('jsin', false, 'abc123');
+  it('looks up karma', async () => {
+    const karma = await lookupKarma('jsin', false, 'abc123');
 
-    return actualKarma.then((result) => {
-      assert.equal(expectedKarma, result);
-    });
+    assert(Number.isInteger(karma));
+  });
+});
+
+describe('giveKarma', () => {
+  it('increments karma', async () => {
+    const currentKarma = await lookupKarma('jsin', false, 'abc123');
+    const incrementedKarma = await giveKarma('jsin', false, 'abc123');
+    assert.equal(currentKarma + 1, incrementedKarma);
   });
 });

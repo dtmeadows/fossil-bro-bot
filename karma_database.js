@@ -33,23 +33,22 @@ async function findKarma(query) {
   return Karma.findOne({ where: query });
 }
 
-// function incrementOrCreateAndIncrementKarma(query) {
-//   findKarma(query).then((karma) => {
-//     if (!karma) {
-//       // Item not found, create a new one
-//       console.log('creating item');
-//       return Karma.create(query);
-//     }
-//     console.log('incrementing karma');
-//     karma.increment('karma_count');
-//     return karma.reload().then((result) => resolve(result));
-//   });
-// }
+async function incrementOrCreateAndIncrementKarma(query) {
+  return findKarma(query).then((karma) => {
+    if (!karma) {
+      // Item not found, create a new one
+      console.log('creating item');
+      return Karma.create(query).then((newKarma) => newKarma.karma_count);
+    }
+    karma.increment('karma_count');
+    return karma.reload().then(() => karma.karma_count);
+  });
+}
 
-// function giveKarma(recipient, isUser, serverId) {
-//   const query = { recipient, is_user: isUser, server: serverId };
-//   incrementOrCreateAndIncrementKarma(query).then((updatedKarma) => resolve(updatedKarma.karma_count));
-// }
+async function giveKarma(recipient, isUser, serverId) {
+  const query = { recipient, is_user: isUser, server: serverId };
+  return incrementOrCreateAndIncrementKarma(query);
+}
 
 async function lookupKarma(recipient, isUser, serverId) {
   const query = { recipient, is_user: isUser, server: serverId };
@@ -63,7 +62,5 @@ async function lookupKarma(recipient, isUser, serverId) {
   });
 }
 
-Karma.sync();
-
-// exports.giveKarma = giveKarma;
+exports.giveKarma = giveKarma;
 exports.lookupKarma = lookupKarma;

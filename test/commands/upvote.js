@@ -4,11 +4,11 @@ const assert = require('assert');
 const upvote = require('../../commands/upvote.js');
 
 describe('upvote', () => {
-  it('parses a user and a reason', () => {
-    assert.equal('++ user reason (now at XX)', upvote.execute('user reason'));
+  it('parses a user and a reason', async () => {
+    assert.match(await upvote.execute('user reason'), /\+\+ user reason \(now at \d+\)/);
   });
 
-  it('parses just a user', () => {
-    assert.equal('++ user (now at XX)', upvote.execute('user'));
+  it('parses just a user', async () => {
+    assert.match(await upvote.execute('user'), /\+\+ user \(now at \d+\)/);
   });
 });

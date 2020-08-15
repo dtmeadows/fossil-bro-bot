@@ -9,13 +9,13 @@ client.once('ready', () => {
   console.log('Ready!');
 });
 
-function handleMessage(message) {
+async function handleMessage(message) {
   if (message.author.bot) {
     // not a message that we care about
     return;
   }
 
-  const response = handleMessageContent(message.content);
+  const response = await handleMessageContent(message.content);
 
   if (response !== undefined) {
     try {

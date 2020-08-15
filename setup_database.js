@@ -33,12 +33,12 @@ async function findKarma(query) {
   return Karma.findOne({ where: query });
 }
 
-function incrementOrCreateAndIncrementKarma(query) {
-  findKarma(query).then((karma) => {
+async function incrementOrCreateAndIncrementKarma(query) {
+  return findKarma(query).then((karma) => {
     if (!karma) {
       // Item not found, create a new one
       console.log('creating item');
-      Karma.create(query).then((newKarma) => newKarma.karma_count);
+      return Karma.create(query).then((newKarma) => newKarma.karma_count);
     } else {
       karma.increment('karma_count');
       return karma.reload().then(() => karma.karma_count);
@@ -46,10 +46,9 @@ function incrementOrCreateAndIncrementKarma(query) {
   });
 }
 
-function giveKarma(recipient, isUser, serverId) {
+async function giveKarma(recipient, isUser, serverId) {
   const query = { recipient, is_user: isUser, server: serverId };
-  const karmaCount = incrementOrCreateAndIncrementKarma(query);
-  console.log(`recipient: ${recipient} now has ${karmaCount} karma`);
+  return incrementOrCreateAndIncrementKarma(query);
 }
 
 async function lookupKarma(recipient, isUser, serverId) {
@@ -66,18 +65,10 @@ async function lookupKarma(recipient, isUser, serverId) {
 
 Karma.sync();
 
-// giveKarma('jsin', false, 'abc123');
-// lookupKarma('jsin', false, 'abc123');
-// const karmaCount = findKarma({ recipient: 'jsin', is_user: false, server: 'abc123' }).then((karma) => { karma.karma_count; }).catch((error) => {
-//   console.log('Error', error);
-// });
 
-// lookupKarma('jsin', false, 'abc123').then((result) => {
-//   console.log(`find karma: ${result}`);
-// }).catch((error) => {
-//   console.log('Error', error);
+// lookupKarma('jsin', false, 'abc123').then((karmaCount) => {
+//   console.log(`karma count: ${karmaCount}`);
 // });
-
-lookupKarma('jsin', false, 'abc123').then((karmaCount) => {
-  console.log(`karma count: ${karmaCount}`);
+giveKarma('jsin', false, 'abc123').then((karmaCount) => {
+  console.log(`recipient: 'jsin' now has ${karmaCount} karma`);
 });
