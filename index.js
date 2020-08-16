@@ -29,6 +29,6 @@ client.on('message', (message) => {
   handleMessage(message);
 });
 
-client.login(process.env.DISCORD_TOKEN);
+console.log(process.env);
 
-console.log(process.env.node_env);
+client.login(process.env.DISCORD_TOKEN);
