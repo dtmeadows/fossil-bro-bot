@@ -5,6 +5,9 @@ let sequelize = null;
 if (process.env.DATABASE_URL) {
   sequelize = new Sequelize(process.env.DATABASE_URL, { logging: false });
 } else {
+  // todo someday: it's not super ideal to use a different database backing
+  // for testing, but it's far, far easier to just use sqlite in-memory here
+  // rather than trying to setup something similar with Postgres
   sequelize = new Sequelize('sqlite::memory:', { logging: false });
 }
 
