@@ -7,7 +7,6 @@ const { handleMessageContent } = require('./handle_message_content.js');
 
 client.once('ready', () => {
   console.log('Ready!');
-  console.log(`processing in ${process.env}`);
 });
 
 async function handleMessage(message) {
@@ -32,3 +31,5 @@ client.on('message', (message) => {
 });
 
 client.login(discordAccessToken);
+
+console.log(process.env.node_env);
