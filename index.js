@@ -30,7 +30,7 @@ client.on('message', (message) => {
 });
 
 console.log(process.env);
-console.log(process.env.node_env);
+console.log(process.env.PORT);
 console.log(process.env.discord_token);
 
 client.login(process.env.discord_token);
