@@ -30,6 +30,6 @@ client.on('message', (message) => {
   handleMessage(message);
 });
 
-client.login(discordAccessToken);
+client.login(process.env.DISCORD_TOKEN);
 
 console.log(process.env.node_env);
