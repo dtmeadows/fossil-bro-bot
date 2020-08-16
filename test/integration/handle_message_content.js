@@ -36,11 +36,11 @@ describe('handleMessageContent', () => {
 
   describe('++', () => {
     it('returns the right thing', async () => {
-      assert.match(await handleMessageContent('!++ user reason'), /\+\+ user reason \(now at \d+\)/);
+      assert.match(await handleMessageContent('!++ user reason', 'server_abc123'), /\+\+ user reason \(now at \d+\)/);
     });
 
     it('returns an error messsage if command cannot be parsed', async () => {
-      assert.equal(await handleMessageContent('!++'), 'Error! Invalid format for ++ command. You must specify a recipient after ++');
+      assert.equal(await handleMessageContent('!++', 'server_abc123'), 'Error! Invalid format for ++ command. You must specify a recipient after ++');
     });
   });
 });
