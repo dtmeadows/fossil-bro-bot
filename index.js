@@ -31,3 +31,5 @@ client.on('message', (message) => {
 });
 
 client.login(discordAccessToken);
+
+console.log(process.env.node_env);

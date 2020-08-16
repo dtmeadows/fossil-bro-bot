@@ -3,13 +3,27 @@ const assert = require('assert');
 
 const downvote = require('../../../commands/downvote.js');
 
+const {
+  sequelize, karmaTable,
+} = require('../../../karma_database');
+
 describe('downvote', () => {
+  beforeEach(async () => {
+    const processingEnv = process.env.node_env || 'test';
+    if (processingEnv === 'test') {
+      await sequelize.drop();
+      await karmaTable.sync();
+    } else {
+      console.error('uh not cool');
+      console.log(processingEnv);
+    }
+  });
   it('parses a user and a reason', async () => {
-    assert.match(await downvote.execute('user reason'), /-- user reason \(now at \d+\)/);
+    assert.equal(await downvote.execute('user reason'), '-- user reason (now at -1)');
   });
 
   it('parses just a user', async () => {
-    assert.match(await downvote.execute('user'), /-- user \(now at \d+\)/);
+    assert.equal(await downvote.execute('user'), '-- user (now at -1)');
   });
 
   it('returns an error messsage if command cannot be parsed', async () => {

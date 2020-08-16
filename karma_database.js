@@ -5,10 +5,10 @@ const sequelize = new Sequelize('database', 'username', 'password', {
   dialect: 'sqlite',
   logging: false,
   // SQLite only
-  storage: 'database.sqlite',
+  storage: process.env.node_env === 'production' ? 'database.sqlite' : 'test_database.sqlite',
 });
 
-const Karma = sequelize.define('karma', {
+const KarmaTable = sequelize.define('karma', {
   recipient: {
     type: Sequelize.STRING,
     unique: true,
@@ -30,7 +30,7 @@ const Karma = sequelize.define('karma', {
 });
 
 async function findKarma(query) {
-  return Karma.findOne({ where: query });
+  return KarmaTable.findOne({ where: query });
 }
 
 async function setOrCreateKarma(query, increment) {
@@ -38,10 +38,10 @@ async function setOrCreateKarma(query, increment) {
     if (!karma) {
       // Item not found, create a new one
       const newQuery = query;
-      // Karma starts at 0, but we're always initializing
+      // KarmaTable starts at 0, but we're always initializing
       // it when someones up or downvoting something
       newQuery.karma_count = increment ? 1 : -1;
-      return Karma.create(query).then((newKarma) => newKarma.karma_count);
+      return KarmaTable.create(query).then((newKarma) => newKarma.karma_count);
     }
 
     if (increment) {
@@ -74,6 +74,10 @@ async function lookupKarma(recipient, isUser, serverId) {
   });
 }
 
+KarmaTable.sync();
+
 exports.giveKarma = giveKarma;
 exports.lookupKarma = lookupKarma;
 exports.decrementKarma = decrementKarma;
+exports.sequelize = sequelize;
+exports.karmaTable = KarmaTable;
