@@ -1,12 +1,12 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('database', 'username', 'password', {
-  host: 'localhost',
-  dialect: 'sqlite',
-  logging: false,
-  // SQLite only
-  storage: process.env.node_env === 'production' ? 'database.sqlite' : 'test_database.sqlite',
-});
+let sequelize = null;
+
+if (process.env.DATABASE_URL) {
+  sequelize = new Sequelize(process.env.DATABASE_URL);
+} else {
+  sequelize = new Sequelize('sqlite::memory:', { logging: false });
+}
 
 const KarmaTable = sequelize.define('karma', {
   recipient: {
