@@ -4,7 +4,7 @@ module.exports = {
   name: '--',
   description: 'Downvote something',
   async execute(message) {
-    const regex = /(?<recipient>\w+)\s*(?<reason>.*)?/;
+    const regex = /(?<recipient>\S+)\s*(?<reason>.*)?/;
     const regexpExtract = regex.exec(message);
 
     if (regexpExtract === null || message === undefined) {
