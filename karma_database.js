@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 let sequelize = null;
 
 if (process.env.DATABASE_URL) {
-  sequelize = new Sequelize(process.env.DATABASE_URL);
+  sequelize = new Sequelize(process.env.DATABASE_URL, { logging: false });
 } else {
   sequelize = new Sequelize('sqlite::memory:', { logging: false });
 }
