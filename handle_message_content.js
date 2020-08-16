@@ -1,7 +1,7 @@
 const { commands } = require('./commands');
 const { prefix } = require('./config.json');
 
-function handleMessageContent(content) {
+function handleMessageContent(content, messageServerId) {
   const trimmedMessage = content.trimLeft();
 
   // check if the prefix is at the start of the message
@@ -22,7 +22,7 @@ function handleMessageContent(content) {
   if (!commands.has(commandName)) {
     return `Error! Unrecognized command: '${commandName}'`;
   }
-  const outputMessage = commands.get(commandName).execute(contentAfterCommand);
+  const outputMessage = commands.get(commandName).execute(contentAfterCommand, messageServerId);
   return outputMessage;
 }
 
