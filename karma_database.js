@@ -14,7 +14,8 @@ if (process.env.DATABASE_URL) {
 const KarmaTable = sequelize.define('karma', {
   recipient: {
     type: Sequelize.STRING,
-    unique: true,
+    // this is not unique because it can be re-used across servers
+    unique: false,
     allowNull: false,
   },
   is_user: {
