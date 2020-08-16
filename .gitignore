@@ -1,5 +1,4 @@
 node_modules/
 fossil-bro-bot.code-workspace
 *.sqlite
-secrets.json
 .vscode
