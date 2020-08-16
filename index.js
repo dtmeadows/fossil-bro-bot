@@ -2,7 +2,6 @@ const Discord = require('discord.js');
 
 const client = new Discord.Client();
 
-const { discordAccessToken } = require('./secrets.json');
 const { handleMessageContent } = require('./handle_message_content.js');
 
 client.once('ready', () => {
