@@ -29,8 +29,4 @@ client.on('message', (message) => {
   handleMessage(message);
 });
 
-console.log(process.env);
-console.log(process.env.NODE_ENV);
-console.log(process.env.discord_token);
-
 client.login(process.env.discord_token);
