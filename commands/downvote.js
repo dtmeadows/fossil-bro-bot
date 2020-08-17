@@ -2,9 +2,9 @@ const { decrementKarma } = require('../karma_database');
 
 module.exports = {
   name: '--',
-  description: 'Downvote something',
-  aliases: ['upvote'],
-  secret_aliases: ['upboat', '—'], // — is an alias since many clients (like an iPhone) autocorrect `--` to `—`
+  description: 'Remove 1 point from something',
+  aliases: ['downvote'],
+  secret_aliases: ['downboat', '—'], // — is an alias since many clients (like an iPhone) autocorrect `--` to `—`
   async execute(message, messageServerId) {
     const regex = /(?<recipient>\S+)\s*(?<reason>.*)?/;
     const regexpExtract = regex.exec(message);
