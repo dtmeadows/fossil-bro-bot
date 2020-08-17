@@ -3,6 +3,8 @@ const { giveKarma } = require('../karma_database');
 module.exports = {
   name: '++',
   description: 'Upvote something',
+  aliases: ['upvote'],
+  secret_aliases: ['upboat'],
   async execute(message, messageServerId) {
     const regex = /(?<recipient>\S+)\s*(?<reason>.*)?/;
     const regexpExtract = regex.exec(message);

@@ -1,8 +1,9 @@
+const Discord = require('discord.js');
 const upvote = require('./upvote.js');
 const downvote = require('./downvote.js');
 const ping = require('./ping.js');
 
-const commands = new Map();
+const commands = new Discord.Collection();
 
 commands.set(upvote.name, upvote);
 commands.set(downvote.name, downvote);

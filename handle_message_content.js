@@ -19,10 +19,15 @@ function handleMessageContent(content, messageServerId) {
 
   const { commandName, contentAfterCommand } = regexpExtract.groups;
 
-  if (!commands.has(commandName)) {
+  // search for command by name or look up to see if it matches the alias of any commands
+  const matchingCommand = commands.get(commandName)
+    || commands.find((cmd) => cmd.aliases
+      && (cmd.aliases.includes(commandName) || cmd.secret_aliases.includes(commandName)));
+
+  if (!matchingCommand) {
     return `Error! Unrecognized command: '${commandName}'`;
   }
-  const outputMessage = commands.get(commandName).execute(contentAfterCommand, messageServerId);
+  const outputMessage = matchingCommand.execute(contentAfterCommand, messageServerId);
   return outputMessage;
 }
 
