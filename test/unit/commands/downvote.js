@@ -3,20 +3,11 @@ const assert = require('assert');
 
 const downvote = require('../../../commands/downvote.js');
 
-const {
-  sequelize, karmaTable,
-} = require('../../../karma_database');
+const { clearDatabase } = require('../../helpers/clear_database');
 
 describe('downvote', () => {
   beforeEach(async () => {
-    const processingEnv = process.env.node_env || 'test';
-    if (processingEnv === 'test') {
-      await sequelize.drop();
-      await karmaTable.sync();
-    } else {
-      console.error('uh not cool');
-      console.log(processingEnv);
-    }
+    clearDatabase(process.env.node_env || 'test');
   });
   it('parses a user and a reason', async () => {
     assert.equal(await downvote.execute('user reason', 'server_abc123'), '-- user reason (now at -1)');
