@@ -28,19 +28,35 @@ describe('handleMessageContent', () => {
     assert.equal('Error! Unrecognized command: \'blah\'', await handleMessageContent('!blah'));
   });
 
-  describe('ping', () => {
-    it('returns pong', async () => {
-      assert.equal('Pong.', await handleMessageContent('!ping'));
-    });
-  });
-
-  describe('++', () => {
-    it('returns the right thing', async () => {
-      assert.match(await handleMessageContent('!++ user reason', 'server_abc123'), /\+\+ user reason \(now at \d+\)/);
+  describe('command matching / calling', () => {
+    describe('ping', () => {
+      it('returns pong', async () => {
+        assert.equal('Pong.', await handleMessageContent('!ping'));
+      });
     });
 
-    it('returns an error messsage if command cannot be parsed', async () => {
-      assert.equal(await handleMessageContent('!++', 'server_abc123'), 'Error! Invalid format for ++ command. You must specify a recipient after ++');
+    describe('++', () => {
+      it('returns the right thing', async () => {
+        assert.equal(await handleMessageContent('!++ user reason', 'server_abc123'), '++ user reason (now at 1)');
+      });
+
+      it('returns an error messsage if command cannot be parsed', async () => {
+        assert.equal(await handleMessageContent('!++', 'server_abc123'), 'Error! Invalid format for ++ command. You must specify a recipient after ++');
+      });
+
+      it('runs via an alias', async () => {
+        assert.equal(await handleMessageContent('!upvote user reason', 'server_abc123'), '++ user reason (now at 1)');
+      });
+    });
+
+    describe('--', () => {
+      it('returns the right thing', async () => {
+        assert.equal(await handleMessageContent('!-- user reason', 'server_abc123'), '-- user reason (now at -1)');
+      });
+
+      it('runs via an alias', async () => {
+        assert.equal(await handleMessageContent('!— user reason', 'server_abc123'), '-- user reason (now at -1)');
+      });
     });
   });
 });
