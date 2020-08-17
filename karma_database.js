@@ -40,6 +40,7 @@ async function findKarma(query) {
 async function setOrCreateKarma(query, increment) {
   return findKarma(query).then((karma) => {
     if (!karma) {
+      console.log(`setOrCreateKarma: no karma found for ${query.recipient}`);
       // Item not found, create a new one
       const newQuery = query;
       // KarmaTable starts at 0, but we're always initializing
@@ -49,8 +50,10 @@ async function setOrCreateKarma(query, increment) {
     }
 
     if (increment) {
+      console.log(`setOrCreateKarma: incrementing karma from ${karma.karma_count} for ${query.recipient}`);
       karma.increment('karma_count');
     } else {
+      console.log(`setOrCreateKarma: decrementing karma from ${karma.karma_count} for ${query.recipient}`);
       karma.decrement('karma_count');
     }
 
@@ -72,8 +75,10 @@ async function lookupKarma(recipient, isUser, serverId) {
   const query = { recipient, is_user: isUser, server: serverId };
   return findKarma(query).then((karma) => {
     if (!karma) {
+      console.log(`lookupKarma: no karma found for ${recipient}`);
       return null;
     }
+    console.log(`lookupKarma: found ${karma.karma_count} for ${recipient}`);
     return karma.karma_count;
   });
 }
