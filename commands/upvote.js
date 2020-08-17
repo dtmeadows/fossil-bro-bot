@@ -1,5 +1,4 @@
 const { giveKarma } = require('../karma_database');
-const { extractKarmaRecipientAndReason } = require('./helpers');
 
 module.exports = {
   name: '++',
@@ -9,13 +8,14 @@ module.exports = {
   aliases: ['upvote'],
   secret_aliases: ['upboat'],
   async execute(message, messageServerId) {
-    let recipient = null;
-    let reason = null;
-    try {
-      ({ recipient, reason } = extractKarmaRecipientAndReason(message));
-    } catch (e) {
-      return e.message;
+    const regex = /(?<recipient>\S+)\s*(?<reason>.*)?/;
+    const regexpExtract = regex.exec(message);
+
+    if (regexpExtract === null || message === undefined) {
+      return 'Error! Invalid format for ++ command. You must specify a recipient after ++';
     }
+
+    const { recipient, reason } = regexpExtract.groups;
 
     // todo parse users and server
     const karmaCount = await giveKarma(recipient, false, messageServerId);

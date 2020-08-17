@@ -34,12 +34,7 @@ describe('handleMessageContent', () => {
       });
 
       it('returns an error messsage if command cannot be parsed', async () => {
-        // couldn't get mocha assert.throws to work... but this does
-        try {
-          await handleMessageContent('!++', 'server_abc123');
-        } catch (error) {
-          assert.equal(error.message, 'Error! Invalid format for ++ command. You must specify a recipient after ++');
-        }
+        assert.equal(await handleMessageContent('!++', 'server_abc123'), 'Error! Invalid format for ++ command. You must specify a recipient after ++');
       });
 
       it('runs via an alias', async () => {
