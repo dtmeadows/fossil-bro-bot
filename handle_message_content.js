@@ -1,6 +1,14 @@
 const { commands } = require('./commands');
 const { prefix } = require('./config.json');
 
+function findCommand(commandName) {
+  // search for command by name or look up to see if it matches the alias of any commands
+
+  return commands.get(commandName)
+    || commands.find((cmd) => (cmd.aliases && cmd.aliases.includes(commandName))
+      || (cmd.secret_aliases && cmd.secret_aliases.includes(commandName)));
+}
+
 function handleMessageContent(content, messageServerId) {
   const trimmedMessage = content.trimLeft();
 
@@ -19,10 +27,7 @@ function handleMessageContent(content, messageServerId) {
 
   const { commandName, contentAfterCommand } = regexpExtract.groups;
 
-  // search for command by name or look up to see if it matches the alias of any commands
-  const matchingCommand = commands.get(commandName)
-    || commands.find((cmd) => (cmd.aliases && cmd.aliases.includes(commandName))
-      || (cmd.secret_aliases && cmd.secret_aliases.includes(commandName)));
+  const matchingCommand = findCommand(commandName);
 
   if (!matchingCommand) {
     return `Error! Unrecognized command: '${commandName}'`;
@@ -32,3 +37,4 @@ function handleMessageContent(content, messageServerId) {
 }
 
 exports.handleMessageContent = handleMessageContent;
+exports.findCommand = findCommand;

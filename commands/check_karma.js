@@ -3,6 +3,8 @@ const { lookupKarma } = require('../karma_database');
 module.exports = {
   name: '==',
   description: 'Get the current Karma of something',
+  usage: '== [recipient]',
+  examples: ['== carrots'],
   aliases: ['k'],
   async execute(message, messageServerId) {
     // todo: should we fire an error if you send anything after the recipient?
