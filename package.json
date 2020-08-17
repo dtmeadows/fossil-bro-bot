@@ -20,10 +20,7 @@
   "homepage": "https://github.com/dtmeadows/fossil-bro-bot#readme",
   "dependencies": {
     "discord.js": "^12.3.0",
-    "pg": "^8.3.0",
     "sequelize": "^6.3.4",
-    "sequelize-cli": "^6.2.0",
-    "sinon": "^9.0.3",
     "sqlite3": "^5.0.0"
   },
   "devDependencies": {
