@@ -1,19 +1,12 @@
 /* eslint-env mocha */
 const assert = require('assert');
 
+const { clearDatabase } = require('../helpers/clear_database');
 const { handleMessageContent } = require('../../handle_message_content.js');
-const { sequelize, karmaTable } = require('../../karma_database');
 
 describe('handleMessageContent', () => {
   beforeEach(async () => {
-    const processingEnv = process.env.node_env || 'test';
-    if (processingEnv === 'test') {
-      await sequelize.drop();
-      await karmaTable.sync();
-    } else {
-      console.error('uh not cool');
-      console.log(processingEnv);
-    }
+    clearDatabase(process.env.node_env || 'test');
   });
 
   it('returns nothing unless prefix is passed', async () => {

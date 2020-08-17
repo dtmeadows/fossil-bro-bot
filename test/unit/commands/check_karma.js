@@ -4,20 +4,11 @@ const assert = require('assert');
 const checkKarma = require('../../../commands/check_karma');
 const upvote = require('../../../commands/upvote');
 
-const {
-  sequelize, karmaTable,
-} = require('../../../karma_database');
+const { clearDatabase } = require('../../helpers/clear_database');
 
 describe('checkKarma', () => {
   beforeEach(async () => {
-    const processingEnv = process.env.node_env || 'test';
-    if (processingEnv === 'test') {
-      await sequelize.drop();
-      await karmaTable.sync();
-    } else {
-      console.error('uh not cool');
-      console.log(processingEnv);
-    }
+    clearDatabase(process.env.node_env || 'test');
   });
 
   it('parses just a user', async () => {

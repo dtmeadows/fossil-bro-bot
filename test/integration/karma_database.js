@@ -2,19 +2,13 @@
 const assert = require('assert');
 
 const {
-  lookupKarma, giveKarma, sequelize, karmaTable,
+  lookupKarma, giveKarma,
 } = require('../../karma_database');
+const { clearDatabase } = require('../helpers/clear_database');
 
 describe('karmaDatabase', () => {
   beforeEach(async () => {
-    const processingEnv = process.env.node_env || 'test';
-    if (processingEnv === 'test') {
-      await sequelize.drop();
-      await karmaTable.sync();
-    } else {
-      console.error('uh not cool');
-      console.log(processingEnv);
-    }
+    clearDatabase(process.env.node_env || 'test');
   });
   describe('lookupKarma', () => {
     it('looks up karma', async () => {
