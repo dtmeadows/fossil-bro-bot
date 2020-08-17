@@ -41,6 +41,17 @@ module.exports = {
     if (matchingCommand.description) {
       helpMessage.push(`Description: \`${matchingCommand.description}\``);
     }
+    if (matchingCommand.usage) {
+      helpMessage.push(`Usage: \`${matchingCommand.usage}\``);
+    }
+    if (matchingCommand.examples) {
+      const { examples } = matchingCommand;
+      const exampleText = examples.map((ex) => `\`${ex}\``);
+      helpMessage.push(
+        'Examples:\n\t'
+        + `${exampleText.join('\n\t')}`,
+      );
+    }
 
     return helpMessage.join('\n');
   },

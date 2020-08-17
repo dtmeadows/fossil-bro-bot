@@ -3,6 +3,8 @@ const { giveKarma } = require('../karma_database');
 module.exports = {
   name: '++',
   description: 'Add 1 point to something',
+  usage: '++ [recipient] [optional reason]',
+  examples: ['++ carrots', '++ carrots for being so crunchy'],
   aliases: ['upvote'],
   secret_aliases: ['upboat'],
   async execute(message, messageServerId) {

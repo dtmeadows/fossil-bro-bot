@@ -14,7 +14,13 @@ describe('help', () => {
 
   describe('with args', () => {
     it('it provides help on a specific command', async () => {
-      const expectedMessage = 'Name: `++`\nAliases: `upvote`\nDescription: `Add 1 point to something`';
+      const expectedMessage = 'Name: `++`\n'
+        + 'Aliases: `upvote`\n'
+        + 'Description: `Add 1 point to something`\n'
+        + 'Usage: `++ [recipient] [optional reason]`\n'
+        + 'Examples:\n'
+        + '\t`++ carrots`\n'
+        + '\t`++ carrots for being so crunchy`';
 
       assert.equal(expectedMessage, await help.execute('++'));
     });

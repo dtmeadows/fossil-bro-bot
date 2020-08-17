@@ -3,6 +3,8 @@ const { decrementKarma } = require('../karma_database');
 module.exports = {
   name: '--',
   description: 'Remove 1 point from something',
+  usage: '-- [recipient] [optional reason]',
+  examples: ['-- carrots', '-- carrots for being so orange'],
   aliases: ['downvote'],
   secret_aliases: ['downboat', '—'], // — is an alias since many clients (like an iPhone) autocorrect `--` to `—`
   async execute(message, messageServerId) {
