@@ -14,7 +14,7 @@ async function handleMessage(message) {
     return;
   }
 
-  const response = await handleMessageContent(message.content, message.guild.id);
+  const response = await handleMessageContent(message.content, message.guild.id, message.author.id);
 
   if (response !== undefined) {
     try {
