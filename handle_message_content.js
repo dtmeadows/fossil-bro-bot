@@ -9,7 +9,7 @@ function findCommand(commandName) {
       || (cmd.secret_aliases && cmd.secret_aliases.includes(commandName)));
 }
 
-function handleMessageContent(content, messageServerId) {
+function handleMessageContent(content, messageServerId, messageAuthor) {
   const trimmedMessage = content.trimLeft();
 
   // check if the prefix is at the start of the message
@@ -32,7 +32,11 @@ function handleMessageContent(content, messageServerId) {
   if (!matchingCommand) {
     return `Error! Unrecognized command: '${commandName}'`;
   }
-  const outputMessage = matchingCommand.execute(contentAfterCommand, messageServerId);
+  const outputMessage = matchingCommand.execute(
+    contentAfterCommand,
+    messageServerId,
+    messageAuthor,
+  );
   return outputMessage;
 }
 
