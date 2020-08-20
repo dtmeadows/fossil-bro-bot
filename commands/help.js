@@ -7,11 +7,12 @@ module.exports = {
     // we're doing this here or else `help` won't be listed as a command below
     // since commands would be loaded before help was
     // eslint-disable-next-line global-require
-    const commands = require('./index.js');
+    const { commands } = require('./index.js');
 
     // if we got no message that means someone just sent `!help`
     if (!message) {
-      return `Available commands are: \`${commands.commands.map((command) => command.name).join(', ')}\`\n`
+      const publishableCommands = commands.filter((cmd) => !cmd.secret_command);
+      return `Available commands are: \`${publishableCommands.map((command) => command.name).join(', ')}\`\n`
         + `For help with a specific command, send \`${prefix}help command\``;
     }
     const regex = /(?<commandName>\S+)/;
