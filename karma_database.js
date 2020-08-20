@@ -61,6 +61,10 @@ async function setOrCreateKarma(query, increment) {
   });
 }
 
+async function getKarmaStats() {
+
+}
+
 async function giveKarma(recipient, isUser, serverId) {
   const query = { recipient, is_user: isUser, server: serverId };
   return setOrCreateKarma(query, true);
