@@ -6,8 +6,6 @@ const karmaStats = require('../../../commands/karma_stats.js');
 const upvote = require('../../../commands/upvote');
 const downvote = require('../../../commands/downvote');
 
-
-
 describe('stat', () => {
   it('it returns a help message if no karma has been added yet', async () => {
     const expectedMessage = 'No karma have been given to recipients yet. Try adding some first and then run this command again.';
