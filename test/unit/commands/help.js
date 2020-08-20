@@ -6,7 +6,7 @@ const help = require('../../../commands/help.js');
 describe('help', () => {
   describe('with no args', () => {
     it('it returns commands list', async () => {
-      const expectedMessage = 'Available commands are: `++, --, ==, ping, help`\nFor help with a specific command, send `!help command`';
+      const expectedMessage = 'Available commands are: `++, --, ==, ping, help, stats`\nFor help with a specific command, send `!help command`';
 
       assert.equal(expectedMessage, await help.execute());
     });
