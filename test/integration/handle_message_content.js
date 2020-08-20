@@ -51,5 +51,15 @@ describe('handleMessageContent', () => {
         assert.equal(await handleMessageContent('!— user reason', 'server_abc123'), '-- user reason (now at -1)');
       });
     });
+
+    describe('boating', () => {
+      it('upboats', async () => {
+        assert.equal(await handleMessageContent('!upboat user reason', 'server_abc123'), '🚤++ user reason (now at 1)🚤');
+      });
+
+      it('downboats', async () => {
+        assert.equal(await handleMessageContent('!downboat user reason', 'server_abc123'), '🚤-- user reason (now at -1)🚤');
+      });
+    });
   });
 });
