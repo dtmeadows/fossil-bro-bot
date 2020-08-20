@@ -3,9 +3,16 @@ function extractKarmaRecipientAndReason(messageText) {
   const regexpExtract = regex.exec(messageText);
 
   if (regexpExtract === null || messageText === undefined) {
-    throw new Error('Error! Invalid format for ++ command. You must specify a recipient after ++');
+    return null;
   }
   return regexpExtract.groups;
+
+  // let normalizedRecipient = null;
+  // if (recipient.match(/^<@!\d+>/)) {
+  //   normalizedRecipient = recipient.replace('!', '');
+  // } else {
+  //   normalizedRecipient = recipient;
+  // }
 }
 
 exports.extractKarmaRecipientAndReason = extractKarmaRecipientAndReason;
