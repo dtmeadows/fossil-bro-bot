@@ -25,6 +25,18 @@ describe('downvote', () => {
     assert.equal(await downvote.execute('<@86890631690977280>', 'server_abc123'), '-- <@86890631690977280> (now at -1)');
   });
 
+  it('assigns karma the same regardless of nicknames', async () => {
+    assert.equal(
+      await downvote.execute('<@!86890631690977280>', 'server_abc123'),
+      '-- <@86890631690977280> (now at -1)',
+    );
+
+    assert.equal(
+      await downvote.execute('<@86890631690977280>', 'server_abc123'),
+      '-- <@86890631690977280> (now at -2)',
+    );
+  });
+
   it('returns an error messsage if command cannot be parsed', async () => {
     assert.equal(await downvote.execute('', 'server_abc123'), 'Error! Invalid format for -- command. You must specify a recipient after --');
   });

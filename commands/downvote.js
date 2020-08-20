@@ -1,5 +1,7 @@
 const { decrementKarma } = require('../karma_database');
 
+const { extractKarmaRecipientAndReason } = require('./helpers');
+
 module.exports = {
   name: '--',
   description: 'Remove 1 point from something',
@@ -8,16 +10,14 @@ module.exports = {
   aliases: ['downvote'],
   secret_aliases: ['downboat', '—'], // — is an alias since many clients (like an iPhone) autocorrect `--` to `—`
   async execute(message, messageServerId) {
-    const regex = /(?<recipient>\S+)\s*(?<reason>.*)?/;
-    const regexpExtract = regex.exec(message);
+    const extraction = extractKarmaRecipientAndReason(message);
 
-    if (regexpExtract === null || message === undefined) {
+    if (extraction === null) {
       return 'Error! Invalid format for -- command. You must specify a recipient after --';
     }
 
-    const { recipient, reason } = regexpExtract.groups;
+    const { recipient, reason } = extraction;
 
-    // todo parse users and server
     const karmaCount = await decrementKarma(recipient, false, messageServerId);
 
     // this will return either:

@@ -1,5 +1,7 @@
 const { giveKarma, decrementKarma } = require('../karma_database');
 
+const { extractKarmaRecipientAndReason } = require('./helpers');
+
 module.exports = {
   name: '++',
   description: 'Add 1 point to something',
@@ -8,17 +10,16 @@ module.exports = {
   aliases: ['upvote'],
   secret_aliases: ['upboat'],
   async execute(message, messageServerId, sender) {
-    const regex = /(?<recipient>\S+)\s*(?<reason>.*)?/;
-    const regexpExtract = regex.exec(message);
+    const extraction = extractKarmaRecipientAndReason(message);
 
-    if (regexpExtract === null || message === undefined) {
+    if (extraction === null) {
       return 'Error! Invalid format for ++ command. You must specify a recipient after ++';
     }
 
-    const { recipient, reason } = regexpExtract.groups;
+    const { recipient, reason } = extraction;
 
     let karmaCount = null;
-    if (recipient === `<@!${sender}>`) {
+    if (recipient === `<@${sender}>`) {
       // we don't advertise it, but if you give yourself karma, you lose karma.
       karmaCount = await decrementKarma(recipient, false, messageServerId);
     } else {
