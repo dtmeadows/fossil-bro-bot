@@ -61,8 +61,35 @@ async function setOrCreateKarma(query, increment) {
   });
 }
 
-async function getKarmaStats() {
+async function lookupKarmaStats(serverId) {
+  const bottom5 = KarmaTable.findAll({
+    where: { server: serverId },
+    order: [
+      ['karma_count', 'ASC'],
+      ['createdAt', 'ASC'],
+    ],
+    limit: 5,
+  });
 
+  const top5 = KarmaTable.findAll({
+    where: { server: serverId },
+    order: [
+      ['karma_count', 'DESC'],
+      ['createdAt', 'ASC'],
+    ],
+    limit: 5,
+  });
+
+  return [await top5, await bottom5];
+}
+
+async function getKarmaStats(serverId) {
+  const [top5, bottom5] = await lookupKarmaStats(serverId);
+
+  const top5Array = top5.map((k) => [k.recipient, k.karma_count]);
+  const bottom5Array = bottom5.map((k) => [k.recipient, k.karma_count]);
+
+  return [top5Array, bottom5Array];
 }
 
 async function giveKarma(recipient, isUser, serverId) {
@@ -94,3 +121,4 @@ exports.lookupKarma = lookupKarma;
 exports.decrementKarma = decrementKarma;
 exports.sequelize = sequelize;
 exports.karmaTable = KarmaTable;
+exports.getKarmaStats = getKarmaStats;
