@@ -25,6 +25,12 @@ describe('checkKarma', () => {
     assert.equal(await checkKarma.execute('chickens', 'server_abc123'), 'chickens is at 0');
   });
 
+  it('checks karma the same regardless of nicknames', async () => {
+    await upvote.execute('<@!86890631690977280>', 'server_abc123');
+    assert.equal(await checkKarma.execute('<@86890631690977280>', 'server_abc123'), '<@86890631690977280> is at 1');
+    assert.equal(await checkKarma.execute('<@!86890631690977280>', 'server_abc123'), '<@86890631690977280> is at 1');
+  });
+
   it('returns an error messsage if command cannot be parsed', async () => {
     assert.equal(await checkKarma.execute('', 'server_abc123'), 'Error! Invalid format for == command. You must specify a recipient after ==');
   });

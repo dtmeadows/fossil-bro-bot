@@ -19,7 +19,7 @@ module.exports = {
     const { recipient, reason } = extraction;
 
     let karmaCount = null;
-    if (recipient === `<@!${sender}>`) {
+    if (recipient === `<@${sender}>`) {
       // we don't advertise it, but if you give yourself karma, you lose karma.
       karmaCount = await decrementKarma(recipient, false, messageServerId);
     } else {

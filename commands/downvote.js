@@ -18,7 +18,6 @@ module.exports = {
 
     const { recipient, reason } = extraction;
 
-    // todo parse users and server
     const karmaCount = await decrementKarma(recipient, false, messageServerId);
 
     // this will return either:

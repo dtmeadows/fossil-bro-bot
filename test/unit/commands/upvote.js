@@ -26,10 +26,22 @@ describe('upvote', () => {
     it('parses just a mention', async () => {
       assert.equal(await upvote.execute('<@86890631690977280>', 'server_abc123'), '++ <@86890631690977280> (now at 1)');
     });
+
+    it('assigns karma the same regardless of nicknames', async () => {
+      assert.equal(
+        await upvote.execute('<@!86890631690977280>', 'server_abc123'),
+        '++ <@86890631690977280> (now at 1)',
+      );
+
+      assert.equal(
+        await upvote.execute('<@86890631690977280>', 'server_abc123'),
+        '++ <@86890631690977280> (now at 2)',
+      );
+    });
   });
 
   it('decrements someone who gives karma to themselves', async () => {
-    assert.equal(await upvote.execute('<@!138508771897901066>', 'server_abc123', '138508771897901066'), '++ <@!138508771897901066> (now at -1)');
+    assert.equal(await upvote.execute('<@!138508771897901066>', 'server_abc123', '138508771897901066'), '++ <@138508771897901066> (now at -1)');
   });
 
   it('returns an error messsage if command cannot be parsed', async () => {
