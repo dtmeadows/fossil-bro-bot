@@ -66,7 +66,7 @@ async function lookupKarmaStats(serverId) {
     where: { server: serverId },
     order: [
       ['karma_count', 'ASC'],
-      ['createdAt', 'ASC'],
+      ['createdAt', 'DESC'],
     ],
     limit: 5,
   });

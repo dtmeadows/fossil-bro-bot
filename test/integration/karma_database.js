@@ -99,9 +99,9 @@ describe('karmaDatabase', () => {
       const expectedBottom5 = [
         ['jerks', -2],
         ['haters', -1],
-        ['carrots', 1],
-        ['elephants', 1],
         ['bananas', 1],
+        ['elephants', 1],
+        ['carrots', 1],
       ];
 
       assert.deepEqual(expectedBottom5, bottom5);
