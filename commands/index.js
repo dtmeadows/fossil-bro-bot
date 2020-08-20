@@ -4,7 +4,8 @@ const downvote = require('./downvote.js');
 const ping = require('./ping.js');
 const checkKarma = require('./check_karma.js');
 const help = require('./help.js');
-const karmaStats = require('./karma_stats.js')
+const karmaStats = require('./karma_stats.js');
+const pong = require('./pong.js');
 
 const commands = new Discord.Collection();
 
@@ -14,5 +15,6 @@ commands.set(checkKarma.name, checkKarma);
 commands.set(ping.name, ping);
 commands.set(help.name, help);
 commands.set(karmaStats.name, karmaStats);
+commands.set(pong.name, pong);
 
 exports.commands = commands;
