@@ -22,12 +22,11 @@ module.exports = {
     //  1. baz: -1
     //  2. stats: 3
     //  3. blur: 1
-    const newStatsMessage = '```Top Karma recipients:\n'
-      + `${top5.map((t, i) => ` ${i + 1}. ${t[0]}: ${t[1]}`).join('\n')}`
-      + '```'
-      + '```Lowest Karma recipients:\n'
-      + `${bottom5.map((t, i) => ` ${i + 1}. ${t[0]}: ${t[1]}`).join('\n')}`
-      + '```';
+    const newStatsMessage = '**Top Karma recipients:**\n'
+      + `${top5.map((t, i) => `   ${i + 1}. ${t[0]}: ${t[1]}`).join('\n')}`
+      + '\n\n'
+      + '**Lowest Karma recipients:**\n'
+      + `${bottom5.map((t, i) => `   ${i + 1}. ${t[0]}: ${t[1]}`).join('\n')}`;
 
     return newStatsMessage;
   },
