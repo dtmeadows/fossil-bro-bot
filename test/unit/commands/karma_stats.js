@@ -33,18 +33,18 @@ describe('stat', () => {
 
     await downvote.execute('haters', serverId);
 
-    const expectedMessage = '```Top Karma recipients:\n'
-      + ' 1. jsin: 3\n'
-      + ' 2. dtm: 2\n'
-      + ' 3. carrots: 1\n'
-      + ' 4. elephants: 1\n'
-      + ' 5. bananas: 1``````'
-      + 'Lowest Karma recipients:\n'
-      + ' 1. jerks: -2\n'
-      + ' 2. haters: -1\n'
-      + ' 3. bananas: 1\n'
-      + ' 4. elephants: 1\n'
-      + ' 5. carrots: 1```';
+    const expectedMessage = '**Top Karma recipients:**\n'
+      + '   1. jsin: 3\n'
+      + '   2. dtm: 2\n'
+      + '   3. carrots: 1\n'
+      + '   4. elephants: 1\n'
+      + '   5. bananas: 1\n\n'
+      + '**Lowest Karma recipients:**\n'
+      + '   1. jerks: -2\n'
+      + '   2. haters: -1\n'
+      + '   3. bananas: 1\n'
+      + '   4. elephants: 1\n'
+      + '   5. carrots: 1';
 
     assert.equal(expectedMessage, await karmaStats.execute(null, serverId));
   });
