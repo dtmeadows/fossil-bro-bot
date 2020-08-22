@@ -15,18 +15,36 @@ client.once('ready', () => {
 //  commands would do that already. This also makes it so
 //  calling a command like stats doesn't notify 10 people
 //  at once.
-async function formatResponse(response, guild) {
+async function formatResponse(response, message) {
   const mentionRegex = /<@!?(?<userId>\d+)>/g;
   const extract = Array.from(response.matchAll(mentionRegex));
+
+  console.log(extract);
+  console.log(extract && extract.length > 0);
 
   let formattedResponse = null;
   if (extract && extract.length > 0) {
     formattedResponse = response;
-    extract.forEach((ex) => {
+    extract.forEach(async (ex) => {
       const { userId } = ex.groups;
 
-      const guildMember = guild.members.cache.get(userId);
-      const { user } = guildMember;
+      let guildMember = null;
+      guildMember = message.guild.members.cache.get(userId);
+      if (!guildMember) {
+        guildMember = await message.guild.members.fetch(userId);
+      }
+
+      console.log(`user id ${userId}`);
+      console.log(guildMember);
+
+      let user = null;
+      if (guildMember) {
+        user = guildMember.user;
+      } else {
+        user = message.mentions.users.get(userId);
+      }
+
+      console.log(`${user}: user`);
 
       formattedResponse = formattedResponse.replace(`<@${userId}>`, `\`@${guildMember.nickname || user.username}\``);
       formattedResponse = formattedResponse.replace(`<@! ${userId}>`, `\`@${guildMember.nickname || user.username}\``);
@@ -45,7 +63,7 @@ async function handleMessage(message) {
 
   const response = await handleMessageContent(message.content, message.guild.id, message.author.id);
 
-  const formattedResponse = await formatResponse(response, message.guild);
+  const formattedResponse = await formatResponse(response, message);
 
   if (formattedResponse !== undefined) {
     try {
