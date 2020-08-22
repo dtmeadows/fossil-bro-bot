@@ -1,5 +1,13 @@
 const { getKarmaStats } = require('../karma_database');
 
+async function formatRankingArray(array) {
+  return array.map((t, i) => {
+    const [recipient, karmaCount] = t;
+
+    return `   ${i + 1}. ${recipient}: ${karmaCount}`;
+  });
+}
+
 module.exports = {
   name: 'stats',
   description: 'Get the current Karma stats for the server',
@@ -13,10 +21,10 @@ module.exports = {
       return 'No karma have been given to recipients yet. Try adding some first and then run this command again.';
     }
 
-    const top5Output = top5.map((t, i) => {
-      const [recipient, karmaCount] = t;
-      return `   ${i + 1}. ${recipient}: ${karmaCount}`;
-    });
+    const top5Output = await formatRankingArray(top5);
+
+    const bottom5Output = await formatRankingArray(bottom5);
+
     // Example output:
     // Top Karma recipients:
     //  1. stats: 3
@@ -30,7 +38,7 @@ module.exports = {
       + `${top5Output.join('\n')}`
       + '\n\n'
       + '**Lowest Karma recipients:**\n'
-      + `${bottom5.map((t, i) => `   ${i + 1}. ${t[0]}: ${t[1]}`).join('\n')}`;
+      + `${bottom5Output.join('\n')}`;
 
     return newStatsMessage;
   },
