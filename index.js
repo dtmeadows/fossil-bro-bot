@@ -51,7 +51,7 @@ async function formatResponse(response, message) {
         displayName = userId;
       }
 
-      formattedResponse = formattedResponse.replace(`<@${userId}>`, `\`@${displayName}\``);
+      formattedResponse = formattedResponse.replace(new RegExp(`<@!?${userId}>`), `\`@${displayName}\``);
     });
   } else {
     formattedResponse = response;
