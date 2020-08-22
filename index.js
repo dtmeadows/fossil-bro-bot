@@ -19,9 +19,6 @@ async function formatResponse(response, message) {
   const mentionRegex = /<@!?(?<userId>\d+)>/g;
   const extract = Array.from(response.matchAll(mentionRegex));
 
-  console.log(extract);
-  console.log(extract && extract.length > 0);
-
   let formattedResponse = null;
   if (extract && extract.length > 0) {
     formattedResponse = response;
@@ -31,11 +28,8 @@ async function formatResponse(response, message) {
       let guildMember = null;
       guildMember = message.guild.members.cache.get(userId);
       if (!guildMember) {
-        guildMember = await message.guild.members.fetch(userId);
+        guildMember = message.guild.members.fetch(userId).then((r) => r).catch(() => { });
       }
-
-      console.log(`user id ${userId}`);
-      console.log(guildMember);
 
       let user = null;
       if (guildMember) {
@@ -44,10 +38,20 @@ async function formatResponse(response, message) {
         user = message.mentions.users.get(userId);
       }
 
-      console.log(`${user}: user`);
+      // Prefer, in order:
+      // 1. Per-server nickname
+      // 2. Username (eg @username)
+      // 3. Just the user ID
+      let displayName = null;
+      if (guildMember && guildMember.nickname) {
+        displayName = guildMember.nickname;
+      } else if (user && user.username) {
+        displayName = user.username;
+      } else {
+        displayName = userId;
+      }
 
-      formattedResponse = formattedResponse.replace(`<@${userId}>`, `\`@${guildMember.nickname || user.username}\``);
-      formattedResponse = formattedResponse.replace(`<@! ${userId}>`, `\`@${guildMember.nickname || user.username}\``);
+      formattedResponse = formattedResponse.replace(`<@${userId}>`, `\`@${displayName}\``);
     });
   } else {
     formattedResponse = response;
@@ -61,16 +65,20 @@ async function handleMessage(message) {
     return;
   }
 
-  const response = await handleMessageContent(message.content, message.guild.id, message.author.id);
+  try {
+    const response = await handleMessageContent(
+      message.content, message.guild.id, message.author.id,
+    );
 
-  const formattedResponse = await formatResponse(response, message);
+    if (response) {
+      const formattedResponse = await formatResponse(response, message);
 
-  if (formattedResponse !== undefined) {
-    try {
+      console.log(`sending response: ${formattedResponse}`);
       message.channel.send(formattedResponse);
-    } catch (error) {
-      console.error(error);
     }
+  } catch (error) {
+    message.channel.send("Error! There was a problem with that request. We'll look into it!");
+    console.log(error);
   }
 }
 
