@@ -13,6 +13,10 @@ module.exports = {
       return 'No karma have been given to recipients yet. Try adding some first and then run this command again.';
     }
 
+    const top5Output = top5.map((t, i) => {
+      const [recipient, karmaCount] = t;
+      return `   ${i + 1}. ${recipient}: ${karmaCount}`;
+    });
     // Example output:
     // Top Karma recipients:
     //  1. stats: 3
@@ -23,7 +27,7 @@ module.exports = {
     //  2. stats: 3
     //  3. blur: 1
     const newStatsMessage = '**Top Karma recipients:**\n'
-      + `${top5.map((t, i) => `   ${i + 1}. ${t[0]}: ${t[1]}`).join('\n')}`
+      + `${top5Output.join('\n')}`
       + '\n\n'
       + '**Lowest Karma recipients:**\n'
       + `${bottom5.map((t, i) => `   ${i + 1}. ${t[0]}: ${t[1]}`).join('\n')}`;
